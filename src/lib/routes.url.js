@@ -1,0 +1,16 @@
+export const routes = {
+  DASHBOARD_URL: "/dashboard/app",
+  LOGIN_URL: "/login",
+  REGISTER_URL: "/register",
+  USER_GROUPS_URL: "/groups",
+  VIEW_GROUP_URL: "/groups/view/:groupId",
+  EDIT_GROUP_URL: "/groups/edit/:groupId",
+  ADD_EXPENSE_URL: "/addExpense/:groupId",
+  EDIT_EXPENSE_URL: "/editExpense/:expenseId",
+  VIEW_EXPENSE_URL: "/viewexpense/:expenseId",
+  CREATE_GROUP_URL: "/createGroup",
+  ABOUT_URL: "/about",
+  USER_PROFILE_URL: "/userprofile",
+  USER_DELETED_URL: "/userProfile/confirmdelete",
+  USER_PASS_UPDATE_URL: "/userProfile/updatePassword",
+};
