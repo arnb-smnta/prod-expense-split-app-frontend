@@ -4,6 +4,7 @@ import { Loader } from "lucide-react";
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { toast } from "@/components/ui/use-toast";
 const AuthContext = createContext({
   user: null,
   token: null,
@@ -36,9 +37,9 @@ const AuthProvider = ({ children }) => {
         setToken(data.accessToken);
         LocalStorage.set("user", data.user);
         LocalStorage.set("token", data.accessToken);
-        navigate("/dashboard"); // Redirect to the chat page after successful login
+        navigate("/dashboard/app"); // Redirect to the chat page after successful login
       },
-      alert
+      toast
     );
   };
 

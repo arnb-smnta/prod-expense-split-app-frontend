@@ -14,6 +14,7 @@ import PublicRoute from "./components/ui/PublicRoute";
 import Login from "./components/login";
 import Register from "./components/register";
 import About from "./components/About";
+import Page404 from "./components/Page404";
 function App() {
   const { token, user } = useAuth();
   return (
@@ -22,15 +23,15 @@ function App() {
         path="/"
         element={
           token && user?._id ? (
-            <Navigate to={`/${routes.DASHBOARD_URL}`} />
+            <Navigate to={`${routes.DASHBOARD_URL}`} />
           ) : (
-            <Navigate to={`/${routes.LOGIN_URL}`} />
+            <Navigate to={`${routes.LOGIN_URL}`} />
           )
         }
       />
       {/* *Private Routes can be accessed only by authenticated USERS */}
       <Route
-        path={`/${routes.DASHBOARD_URL}`}
+        path={`${routes.DASHBOARD_URL}`}
         element={
           <PrivateRoute>
             <Dashboard />
@@ -38,7 +39,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.CREATE_GROUP_URL}`}
+        path={`${routes.CREATE_GROUP_URL}`}
         element={
           <PrivateRoute>
             <CreateGroup />
@@ -46,7 +47,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.ADD_EXPENSE_URL}`}
+        path={`${routes.ADD_EXPENSE_URL}`}
         element={
           <PrivateRoute>
             <AddExpense />
@@ -54,7 +55,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.USER_GROUPS_URL}`}
+        path={`${routes.USER_GROUPS_URL}`}
         element={
           <PrivateRoute>
             <Groups />
@@ -62,7 +63,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.VIEW_GROUP_URL}`}
+        path={`${routes.VIEW_GROUP_URL}`}
         element={
           <PrivateRoute>
             <ViewGroup />
@@ -70,7 +71,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.EDIT_GROUP_URL}`}
+        path={`${routes.EDIT_GROUP_URL}`}
         element={
           <PrivateRoute>
             <EditGroup />
@@ -78,7 +79,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.USER_PROFILE_URL}`}
+        path={`${routes.USER_PROFILE_URL}`}
         element={
           <PrivateRoute>
             <Profile />
@@ -86,7 +87,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.LOGIN_URL}`}
+        path={`${routes.LOGIN_URL}`}
         element={
           <PublicRoute>
             <Login />
@@ -94,7 +95,7 @@ function App() {
         }
       />
       <Route
-        path={`/${routes.REGISTER_URL}`}
+        path={`${routes.REGISTER_URL}`}
         element={
           <PublicRoute>
             <Register />
@@ -103,13 +104,14 @@ function App() {
       />
 
       <Route
-        path={`/${routes.ABOUT_URL}`}
+        path={`${routes.ABOUT_URL}`}
         element={
           <PublicRoute>
             <About />
           </PublicRoute>
         }
       />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 }

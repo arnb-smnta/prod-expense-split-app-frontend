@@ -57,7 +57,10 @@ export const requestHandler = async (api, setLoading, onSuccess, onError) => {
         window.location.href = "/login"; //redirects to login page
       }
     }
-    onError(error?.response?.data?.message || "Something went wrong");
+    onError({
+      variant: "destructive",
+      description: error?.response?.data?.message || "Something went wrong",
+    });
   } finally {
     if (setLoading) setLoading(false);
   }
