@@ -1,7 +1,6 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { routes } from "./lib/routes.url";
-import { useAuth } from "./context/AuthContext";
 import PrivateRoute from "./components/ui/PrivateRoute";
 import Dashboard from "./components/dashboard";
 import Groups from "./components/groups";
@@ -15,6 +14,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import About from "./components/About";
 import Page404 from "./components/Page404";
+import { useAuth } from "./context/useAuthHook";
 function App() {
   const { token, user } = useAuth();
   return (

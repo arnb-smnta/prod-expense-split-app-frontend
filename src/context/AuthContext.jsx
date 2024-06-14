@@ -1,10 +1,10 @@
 import { loginUser, logoutUser, registerUser } from "@/api";
 import { LocalStorage, requestHandler } from "@/lib/helpers";
-import { Loader } from "lucide-react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { toast } from "@/components/ui/use-toast";
+import Loader from "@/components/Loader";
 const AuthContext = createContext({
   user: null,
   token: null,
@@ -14,8 +14,6 @@ const AuthContext = createContext({
 });
 
 //Creating a hook to access the auth context
-
-const useAuth = () => useContext(AuthContext);
 
 //Create a component that provides authentication related data and functions
 
@@ -66,6 +64,18 @@ const AuthProvider = ({ children }) => {
     );
   };
 
+  useEffect(() => {
+    setisLoading(true);
+    const _token = LocalStorage.get("token");
+    const _user = LocalStorage.get("user");
+
+    if (_token && _user._id) {
+      setUser(_user);
+      setToken(_token);
+    }
+    setisLoading(false);
+  }, []);
+
   //Check for saved user and token in local storage during component initialization
 
   return (
@@ -79,4 +89,4 @@ AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { AuthContext, AuthProvider, useAuth };
+export { AuthContext, AuthProvider };

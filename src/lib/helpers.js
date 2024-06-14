@@ -1,3 +1,6 @@
+import { FaDashcube } from "react-icons/fa6";
+import { MdGroups2 } from "react-icons/md";
+
 // Check if the code is running in a browser environment
 export const isBrowser = typeof window !== "undefined";
 export class LocalStorage {
@@ -65,3 +68,16 @@ export const requestHandler = async (api, setLoading, onSuccess, onError) => {
     if (setLoading) setLoading(false);
   }
 };
+
+export const menuItems = [
+  {
+    key: "dashboard",
+    icon: FaDashcube,
+    label: "Dashboard",
+  },
+  {
+    key: "group",
+    icon: MdGroups2,
+    label: "Groups",
+  },
+];
