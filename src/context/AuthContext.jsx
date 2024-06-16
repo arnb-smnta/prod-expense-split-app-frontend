@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
         alert("Account created succesfully,Go ahead and login");
         navigate("/login");
       },
-      alert
+      toast
     );
   };
 
@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
       () => {
         setUser(null), setToken(null), LocalStorage.clear(), navigate("/login");
       },
-      alert
+      toast
     );
   };
 

@@ -43,6 +43,7 @@ function App() {
         <Route path="app" element={<Main />} />
         <Route path="createGroup" element={<CreateGroup />} />
         <Route path="groups" element={<Groups />} />
+        <Route path="userProfile" element={<Profile />} />
       </Route>
 
       <Route
@@ -70,14 +71,7 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route
-        path={`${routes.USER_PROFILE_URL}`}
-        element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        }
-      />
+
       <Route
         path={`${routes.LOGIN_URL}`}
         element={

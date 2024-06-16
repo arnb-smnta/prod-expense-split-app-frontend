@@ -1,0 +1,3 @@
+.dotted-separator {
+  @apply border-t border-dotted border-gray-400 my-2;
+}
