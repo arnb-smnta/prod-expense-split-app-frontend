@@ -1,27 +1,10 @@
 import { LocalStorage, menuItems } from "@/lib/helpers";
 import React, { useState } from "react";
-import { FaDashcube } from "react-icons/fa6";
-import { MdGroups2 } from "react-icons/md";
+import { MenuItem } from "./MenuItem";
+import { Outlet } from "react-router-dom";
 const Dashboard = () => {
-  const MenuItem = ({ icon: Icon, label, isActive, onClick }) => {
-    return (
-      <div
-        className="flex w-full border border-black rounded-2xl shadow-xl"
-        onClick={onClick}
-      >
-        <Icon className={`h-12 w-8 ${isActive ? "text-blue-500" : ""}`} />
-        <h1
-          className={`text-xl ml-8 pt-2 font-bold ${
-            isActive ? "text-blue-800" : ""
-          }`}
-        >
-          {label}
-        </h1>
-      </div>
-    );
-  };
   const name = LocalStorage.get("user");
-  const [clickedIcon, setclickedIcon] = useState("dashboard");
+  const [clickedIcon, setclickedIcon] = useState(menuItems[0].key);
   return (
     <div className="w-full grid grid-cols-12 ">
       <div className="col-span-3 border-r border-black border-dotted h-screen px-4">
@@ -43,17 +26,23 @@ const Dashboard = () => {
             <h1>{name.email}</h1>
           </div>
         </div>
-        {menuItems.map((item) => {
-          <MenuItem
-            key={item.key}
-            icon={item.icon}
-            label={item.label}
-            onClick={() => setclickedIcon(item.key)}
-          />;
-        })}
+        <div>
+          {" "}
+          {menuItems.map((item) => {
+            return (
+              <MenuItem
+                key={item.key}
+                icon={item.icon}
+                label={item.label}
+                link={item.link}
+                isActive={clickedIcon == item.key}
+                onClick={() => setclickedIcon(item.key)}
+              />
+            );
+          })}
+        </div>
       </div>
-      <div className="col-span-6">middle</div>
-      <div className="col-span-3">side 2</div>
+      <Outlet />
     </div>
   );
 };

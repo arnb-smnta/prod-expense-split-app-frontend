@@ -15,6 +15,8 @@ import Register from "./components/register";
 import About from "./components/About";
 import Page404 from "./components/Page404";
 import { useAuth } from "./context/useAuthHook";
+import Main from "./components/dashboard/Main";
+
 function App() {
   const { token, user } = useAuth();
   return (
@@ -31,21 +33,18 @@ function App() {
       />
       {/* *Private Routes can be accessed only by authenticated USERS */}
       <Route
-        path={`${routes.DASHBOARD_URL}`}
+        path={`/Dashboard`}
         element={
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
         }
-      />
-      <Route
-        path={`${routes.CREATE_GROUP_URL}`}
-        element={
-          <PrivateRoute>
-            <CreateGroup />
-          </PrivateRoute>
-        }
-      />
+      >
+        <Route path="app" element={<Main />} />
+        <Route path="createGroup" element={<CreateGroup />} />
+        <Route path="groups" element={<Groups />} />
+      </Route>
+
       <Route
         path={`${routes.ADD_EXPENSE_URL}`}
         element={
@@ -54,14 +53,7 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route
-        path={`${routes.USER_GROUPS_URL}`}
-        element={
-          <PrivateRoute>
-            <Groups />
-          </PrivateRoute>
-        }
-      />
+
       <Route
         path={`${routes.VIEW_GROUP_URL}`}
         element={
@@ -103,14 +95,7 @@ function App() {
         }
       />
 
-      <Route
-        path={`${routes.ABOUT_URL}`}
-        element={
-          <PublicRoute>
-            <About />
-          </PublicRoute>
-        }
-      />
+      <Route path={`${routes.ABOUT_URL}`} element={<About />} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );

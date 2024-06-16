@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useAuth } from "@/context/useAuthHook";
 const PrivateRoute = ({ children }) => {
   const { token, user } = useAuth();
-  console.log(token, user);
+
   if (!token || !user?._id) {
     return <Navigate to="/login" replace />;
   }

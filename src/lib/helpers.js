@@ -1,6 +1,6 @@
 import { FaDashcube } from "react-icons/fa6";
-import { MdGroups2 } from "react-icons/md";
-
+import { MdGroupAdd, MdGroups2 } from "react-icons/md";
+import { TiInfoLarge } from "react-icons/ti";
 // Check if the code is running in a browser environment
 export const isBrowser = typeof window !== "undefined";
 export class LocalStorage {
@@ -74,10 +74,24 @@ export const menuItems = [
     key: "dashboard",
     icon: FaDashcube,
     label: "Dashboard",
+    link: "dashboard/app",
   },
   {
     key: "group",
     icon: MdGroups2,
     label: "Groups",
+    link: "dashboard/groups",
+  },
+  {
+    key: "CreateGroup",
+    icon: MdGroupAdd,
+    label: "CreateGroup",
+    link: "dashboard/createGroup",
+  },
+  {
+    key: "about",
+    icon: TiInfoLarge,
+    label: "About",
+    link: "about",
   },
 ];
