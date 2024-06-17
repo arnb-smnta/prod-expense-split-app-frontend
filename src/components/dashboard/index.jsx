@@ -33,6 +33,8 @@ const Dashboard = () => {
     )?.key;
     if (!activeMenuItem) {
       dispatch(activeMenu(null));
+    } else {
+      dispatch(activeMenu(activeMenuItem));
     }
   }, [location, dispatch]);
 

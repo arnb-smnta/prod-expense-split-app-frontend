@@ -93,8 +93,9 @@ const Profile = () => {
               id="email"
               placeholder="Username"
               value={userData.username}
-              onchange={handleDataChange("username")}
+              onChange={handleDataChange("username")}
               disabled={!editProfile}
+              className="border hover:border-black"
             />
           </div>
           <div className="row-span-2 grid w-full max-w-sm items-center gap-1.5">
@@ -104,8 +105,9 @@ const Profile = () => {
               id="email"
               placeholder="Email"
               value={userData.email}
-              onchange={handleDataChange("email")}
+              onChange={handleDataChange("email")}
               disabled={!editProfile}
+              className="border hover:border-black"
             />
           </div>
           {!editProfile ? (
@@ -161,24 +163,24 @@ const Profile = () => {
             type="password"
             placeholder="Old Password"
             value={passwordData.oldPassword}
-            onchange={handlePasswordChange("oldPassword")}
-            className="row-span-1"
+            onChange={handlePasswordChange("oldPassword")}
+            className="border row-span-1  hover:border-black"
           />
           <Input
             type="password"
             id="new Password"
             placeholder="New Password"
             value={passwordData.newPassword}
-            onchange={handlePasswordChange("NewPassword")}
-            className="row-span-1"
+            onChange={handlePasswordChange("newPassword")}
+            className="border row-span-1  hover:border-black"
           />
           <Input
             type="password"
             id="confirm Password"
             placeholder="confirm Password"
             value={passwordData.confirmPassword}
-            onchange={handlePasswordChange("ConfirmPassword")}
-            className="row-span-1"
+            onChange={handlePasswordChange("confirmPassword")}
+            className="border row-span-1  hover:border-black"
           />
           <div className="row-span-1  flex justify-between">
             <Button

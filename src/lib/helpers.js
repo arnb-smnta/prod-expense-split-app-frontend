@@ -95,3 +95,11 @@ export const menuItems = [
     link: "about",
   },
 ];
+export const ExpenseGroupTypes = {
+  HOME: "Home",
+  TRIP: "Trip",
+  OFFICE: "Office",
+  SPORTS: "Sports",
+  OTHERS: "Others",
+};
+export const AvailableExpenseGroupTypes = Object.values(ExpenseGroupTypes);
