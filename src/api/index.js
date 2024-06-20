@@ -140,7 +140,27 @@ const viewGroupExpensesCategoryWise = (groupId) => {
   return apiClient.get(`/expense/categoryexpense/group/${groupId}`);
 };
 
+const getCurrentUser = () => {
+  return apiClient.get("/users/getcurrentuser");
+};
+
+const updateUserDetails = (data) => {
+  return apiClient.post("/users/changeuserdetails", data);
+};
+
+const changePassword = (data) => {
+  console.log(data);
+  return apiClient.post("/users/changepassword", data);
+};
+
+const getallusers = () => {
+  return apiClient.get("/users/availableusers");
+};
+
 export {
+  getallusers,
+  updateUserDetails,
+  changePassword,
   loginUser,
   registerUser,
   logoutUser,
@@ -168,4 +188,5 @@ export {
   viewGroupExpensesCategoryWise,
   viewGroupExpensesMonthly,
   viewGroupExpensesDaily,
+  getCurrentUser,
 };

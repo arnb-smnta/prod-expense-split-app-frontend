@@ -1,5 +1,5 @@
-import { LocalStorage } from "@/lib/helpers";
-import React, { useState } from "react";
+import { LocalStorage, requestHandler } from "@/lib/helpers";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaLock } from "react-icons/fa6";
@@ -17,35 +17,79 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { changePassword, getCurrentUser, updateUserDetails } from "@/api";
+import { toast } from "../ui/use-toast";
+import { useAuth } from "@/context/useAuthHook";
 
 const Profile = () => {
+  /* All state variables*/
+  const name = LocalStorage.get("user");
+  const [refresh, setRefresh] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     email: "",
   });
+  const { logout } = useAuth();
+
+  const [isConfirmPasswordEqual, setisConfirmPasswordEqual] = useState(null);
+  const [open, setOpen] = useState(false);
   const [passwordData, setPasswordData] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    oldpassword: "",
+    newpassword: "",
+    confrimpassword: "",
   });
+
+  const [editProfile, setEditProfile] = useState(false);
+  const [changePasswordClicked, setChangePasswordClicked] = useState(false);
+
+  /* all state varables*/
+
+  //Fetching user data from backend function
+
+  const fetchUserDetails = async () => {
+    requestHandler(
+      async () => getCurrentUser(),
+      setisLoading,
+      (req) => {
+        setUserData({ username: req.data.username, email: req.data.email });
+      }
+    );
+  };
 
   const handlePasswordChange = (name) => (e) => {
     e.preventDefault();
     setPasswordData({ ...passwordData, [name]: e.target.value });
   };
-  const [editProfile, setEditProfile] = useState(false);
-  const [changePasswordClicked, setChangePasswordClicked] = useState(false);
-  const name = LocalStorage.get("user");
-  const handleEditUser = () => {
+
+  // Handle Functionality
+
+  const handleEditUser = async () => {
     //await Edit Profile
     //!handle edit profile
     setEditProfile(false);
+    await requestHandler(
+      async () => await updateUserDetails(userData),
+      setisLoading,
+      () => {},
+      toast
+    );
+    //Updating the state to call use effect on success
+    setRefresh(!refresh);
   };
   const handleDeleteUser = () => {
     //! Handle delete user
   };
   const handlePasswordUpdate = () => {
-    //!handle password change backend
+    requestHandler(
+      async () => changePassword(passwordData),
+      null,
+      async () => {
+        await logout();
+      },
+      toast
+    );
+
     console.log(passwordData);
   };
 
@@ -77,7 +121,15 @@ const Profile = () => {
       </div>
     );
   }
-  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, [refresh]);
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
+
   return (
     <div className=" mt-36 grid grid-cols-9">
       <div className="col-span-3 pl-4">
@@ -162,25 +214,25 @@ const Profile = () => {
           <Input
             type="password"
             placeholder="Old Password"
-            value={passwordData.oldPassword}
-            onChange={handlePasswordChange("oldPassword")}
+            value={passwordData.oldpassword}
+            onChange={handlePasswordChange("oldpassword")}
             className="border row-span-1  hover:border-black"
           />
           <Input
             type="password"
             id="new Password"
             placeholder="New Password"
-            value={passwordData.newPassword}
-            onChange={handlePasswordChange("newPassword")}
+            value={passwordData.newpassword}
+            onChange={handlePasswordChange("newpassword")}
             className="border row-span-1  hover:border-black"
           />
           <Input
             type="password"
             id="confirm Password"
             placeholder="confirm Password"
-            value={passwordData.confirmPassword}
-            onChange={handlePasswordChange("confirmPassword")}
-            className="border row-span-1  hover:border-black"
+            value={passwordData.confrimpassword}
+            onChange={handlePasswordChange("confrimpassword")}
+            className={`border row-span-1  hover:border-black `}
           />
           <div className="row-span-1  flex justify-between">
             <Button
