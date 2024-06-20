@@ -32,7 +32,7 @@ const Profile = () => {
   });
   const { logout } = useAuth();
 
-  const [isConfirmPasswordEqual, setisConfirmPasswordEqual] = useState(null);
+  const [isConfirmPasswordEqual, setisConfirmPasswordEqual] = useState(true);
   const [open, setOpen] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldpassword: "",
@@ -59,7 +59,20 @@ const Profile = () => {
 
   const handlePasswordChange = (name) => (e) => {
     e.preventDefault();
-    setPasswordData({ ...passwordData, [name]: e.target.value });
+    const value = e.target.value;
+
+    setPasswordData((prevData) => {
+      const updatedPasswordData = { ...prevData, [name]: value };
+
+      if (name === "confrimpassword" || name === "newpassword") {
+        setisConfirmPasswordEqual(
+          updatedPasswordData.confrimpassword ===
+            updatedPasswordData.newpassword
+        );
+      }
+
+      return updatedPasswordData;
+    });
   };
 
   // Handle Functionality
@@ -89,8 +102,6 @@ const Profile = () => {
       },
       toast
     );
-
-    console.log(passwordData);
   };
 
   const handleDataChange = (name) => (e) => {
@@ -226,25 +237,44 @@ const Profile = () => {
             onChange={handlePasswordChange("newpassword")}
             className="border row-span-1  hover:border-black"
           />
-          <Input
-            type="password"
-            id="confirm Password"
-            placeholder="confirm Password"
-            value={passwordData.confrimpassword}
-            onChange={handlePasswordChange("confrimpassword")}
-            className={`border row-span-1  hover:border-black `}
-          />
+          <div className="row-span-1">
+            <Input
+              type="password"
+              id="confirm Password"
+              placeholder="confirm Password"
+              value={passwordData.confrimpassword}
+              onChange={handlePasswordChange("confrimpassword")}
+              className={`border   hover:border-black `}
+            />
+
+            {isConfirmPasswordEqual ? null : (
+              <h2 className="text-red-600 py-2">
+                New password is not equal to Confirm password
+              </h2>
+            )}
+          </div>
           <div className="row-span-1  flex justify-between">
             <Button
               className="bg-transparent text-red-600 border border-red-600 hover:bg-red-100 w-[50%] mr-2"
-              onClick={() => setChangePasswordClicked(false)}
+              onClick={() => {
+                setChangePasswordClicked(false);
+
+                setPasswordData({
+                  oldpassword: "",
+                  newpassword: "",
+                  confrimpassword: "",
+                });
+                setisConfirmPasswordEqual(true);
+              }}
             >
               <FcCancel />
               Cancel
             </Button>
+
             <Button
-              className="bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-100 w-[50%]"
+              className={`bg-transparent text-blue-600 border border-blue-600 hover:bg-blue-100 w-[50%] `}
               onClick={handlePasswordUpdate}
+              disabled={!isConfirmPasswordEqual}
             >
               <TiTick />
               Update

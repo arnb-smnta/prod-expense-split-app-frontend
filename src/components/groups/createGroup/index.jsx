@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -9,8 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AvailableExpenseGroupTypes } from "@/lib/helpers";
+import { AvailableExpenseGroupTypes, requestHandler } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
+import { getAvailableUsers } from "@/api";
+import { toast } from "@/components/ui/use-toast";
 const CreateGroup = () => {
   const [expenseGroupData, setExpenseGroupData] = useState({
     name: "",
@@ -18,6 +20,19 @@ const CreateGroup = () => {
     participants: [],
     groupCategory: "",
   });
+  const [availableUsers, setavailableUsers] = useState([]);
+
+  const handlegetParticiapants = async () => {
+    requestHandler(
+      async () => getAvailableUsers(),
+      null,
+      (req) => {
+        setavailableUsers(req.data);
+      },
+      toast
+    );
+  };
+
   const handleGroupDetailsChange = (name) => (e) => {
     if (name === "participants") {
       setExpenseGroupData((prevState) => ({
@@ -34,6 +49,10 @@ const CreateGroup = () => {
   const handleSubmit = () => {
     console.log(expenseGroupData);
   };
+
+  useEffect(() => {
+    handlegetParticiapants();
+  }, []);
   return (
     <div className="mt-32 border border-black grid grid-rows-8 gap-3 w-[70%]">
       <h1 className="text-2xl font-bold row-span-1">Create new Group</h1>
@@ -79,9 +98,9 @@ const CreateGroup = () => {
           <SelectGroup>
             <SelectLabel>Participants</SelectLabel>
 
-            {AvailableExpenseGroupTypes.map((item, index) => (
+            {availableUsers.map((item, index) => (
               <SelectItem key={index} value={item}>
-                {item}
+                {item.username}
               </SelectItem>
             ))}
           </SelectGroup>
