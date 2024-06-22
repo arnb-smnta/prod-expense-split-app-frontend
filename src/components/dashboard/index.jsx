@@ -42,7 +42,7 @@ const Dashboard = () => {
     await logout();
   };
   return (
-    <div className="w-full grid grid-cols-12 ">
+    <div className="w-full grid grid-cols-12 bg-gray-200 ">
       <div className="col-span-3 border-r border-black border-dotted h-screen px-4">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBm8eaubRQZt4JeGqzJEdv4Hsso9I7Qo5oDT4IR6YbouQsmqS8PUbOme0eOZ041miCyyE&usqp=CAU"
@@ -131,8 +131,9 @@ const Dashboard = () => {
             </DropdownMenu>
           </div>
         </div>
-
-        <Outlet />
+        <div>
+          <Outlet />
+        </div>
       </div>
     </div>
   );

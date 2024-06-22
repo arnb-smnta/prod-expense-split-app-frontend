@@ -44,6 +44,7 @@ function App() {
         <Route path="createGroup" element={<CreateGroup />} />
         <Route path="groups" element={<Groups />} />
         <Route path="userProfile" element={<Profile />} />
+        <Route path="groups/view/:id" element={<ViewGroup />} />
       </Route>
 
       <Route
@@ -55,14 +56,6 @@ function App() {
         }
       />
 
-      <Route
-        path={`${routes.VIEW_GROUP_URL}`}
-        element={
-          <PrivateRoute>
-            <ViewGroup />
-          </PrivateRoute>
-        }
-      />
       <Route
         path={`${routes.EDIT_GROUP_URL}`}
         element={
