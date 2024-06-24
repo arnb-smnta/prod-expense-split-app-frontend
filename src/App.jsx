@@ -45,6 +45,8 @@ function App() {
         <Route path="groups" element={<Groups />} />
         <Route path="userProfile" element={<Profile />} />
         <Route path="groups/view/:id" element={<ViewGroup />} />
+        <Route path="groups/edit/:id" element={<EditGroup />} />
+        <Route path="addExpense/:id" element={<AddExpense />} />
       </Route>
 
       <Route

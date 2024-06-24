@@ -81,13 +81,28 @@ const addMembersinExpenseGroup = (groupId, userId) => {
 
 //Expense Routes
 
-const addExpense = (data, groupId, attachments) => {
+const addExpense = (data, groupId, attachments = []) => {
   const formData = new FormData();
 
-  formData.append("content", data); // ! has to modify before writting forntend after seeing the backend
-  attachments.map((file) => {
-    formData.append("attachments", file);
+  // Append the data to formData
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+  formData.append("amount", data.amount);
+  formData.append("category", data.category);
+  formData.append("expenseDate", data.expenseDate);
+  formData.append("expenseMethod", data.expenseMethod);
+  formData.append("owner", data.owner);
+
+  data.participants.forEach((participant) => {
+    formData.append("participants[]", participant);
   });
+
+  // Append attachments if any
+  if (attachments.length > 0) {
+    attachments.forEach((file) => {
+      formData.append("billAttachments", file);
+    });
+  }
 
   return apiClient.post(`/expense/addexpense/${groupId}`, formData);
 };

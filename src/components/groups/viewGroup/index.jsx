@@ -14,7 +14,12 @@ import { LiaStickyNoteSolid } from "react-icons/lia";
 import { CgNotes } from "react-icons/cg";
 import { FaRegMoneyBill1 } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import GroupExpenses from "./GroupExpenses";
+import GroupBalance from "./GroupBalance";
+import MyBalance from "./MyBalance";
+
 const ViewGroup = () => {
+  const [isActive, setisActive] = useState(1);
   const icons = {
     Home: IoHome,
     Trip: MdAirplanemodeActive,
@@ -22,6 +27,19 @@ const ViewGroup = () => {
     Others: LiaStickyNoteSolid,
     Office: GiOfficeChair,
   };
+  const renderContent = () => {
+    switch (isActive) {
+      case 1:
+        return <GroupExpenses />;
+      case 2:
+        return <GroupBalance />;
+      case 3:
+        return <MyBalance />;
+      default:
+        return null;
+    }
+  };
+
   const { id } = useParams();
   const [isLoading, setisLoading] = useState(true);
 
@@ -89,29 +107,62 @@ const ViewGroup = () => {
       </div>
 
       <div className="grid grid-cols-3 gap-6 p-6">
-        <div className="bg-blue-500 col-span-1 rounded-xl p-4 grid grid-cols-2">
-          <CgNotes color="blue" />
-          <div>
+        <div className="bg-blue-500 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">
+          <div className="bg-blue-700 rounded-full flex justify-center items-center col-span-1">
+            <CgNotes color="white" className="h-8 w-8" />
+          </div>
+          <div className="col-span-2">
             <h1 className="font-bold text-2xl">Total Expense</h1>
             <h1 className="font-bold text-2xl">₹ 0</h1>
           </div>
         </div>
-        <div className="bg-green-300 col-span-1 rounded-xl p-4 grid grid-cols-2">
-          <FaRegMoneyBill1 color="green" />
-          <div>
+        <div className="bg-green-300 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">
+          <div className="bg-green-700 rounded-full flex justify-center items-center col-span-1">
+            <FaRegMoneyBill1 color="white" className="h-8 w-8" />
+          </div>
+          <div className="col-span-2">
             <h1 className="font-bold text-2xl">You are owed</h1>
             <h1 className="font-bold text-2xl">₹ 0</h1>
           </div>
         </div>
-        <div className="bg-red-300 col-span-1 rounded-xl p-4 grid grid-cols-2">
-          <FaMoneyBillTransfer color="red" />
-
+        <div className="bg-red-300 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">
+          <div className="rounded-full bg-red-700 flex justify-center items-center">
+            <FaMoneyBillTransfer color="white" className="h-8 w-8" />
+          </div>
           <div>
             <h1 className="font-bold text-2xl">You owe</h1>
             <h1 className="font-bold text-2xl">₹ 0</h1>
           </div>
         </div>
       </div>
+      <div className=" grid grid-cols-3 gap-2">
+        <div
+          className={`text-center col-span-1 border border-r-black rounded-xl p-2 text-xl cursor-pointer ${
+            isActive === 1 ? "bg-blue-300 font-bold" : ""
+          }`}
+          onClick={() => setisActive(1)}
+        >
+          <h1>Group expense </h1>
+        </div>
+        <div
+          className={`text-center col-span-1 border border-r-black rounded-xl p-2 text-xl cursor-pointer ${
+            isActive === 2 ? "bg-blue-300 font-bold" : ""
+          }`}
+          onClick={() => setisActive(2)}
+        >
+          <h1>Group Balance </h1>
+        </div>
+        <div
+          className={`text-center col-span-1 text-xl cursor-pointer ${
+            isActive === 3 ? "bg-blue-300 font-bold" : ""
+          } rounded-xl p-2`}
+          onClick={() => setisActive(3)}
+        >
+          <h1 className="">My Balance</h1>
+        </div>
+      </div>
+
+      <div>{renderContent()}</div>
     </div>
   );
 };

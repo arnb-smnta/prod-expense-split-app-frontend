@@ -50,6 +50,7 @@ export const requestHandler = async (api, setLoading, onSuccess, onError) => {
       onSuccess(data);
     }
   } catch (error) {
+    console.log(error.response);
     if (error && error.response && [401, 403].includes(error.response.status)) {
       localStorage.clear();
       if (isBrowser) {
@@ -100,3 +101,21 @@ export const ExpenseGroupTypes = {
   OTHERS: "Others",
 };
 export const AvailableExpenseGroupTypes = Object.values(ExpenseGroupTypes);
+export const PaymentMethods = {
+  CASH: "Cash",
+  UPI: "Upi",
+  CARD: "Card",
+};
+
+export const AvailablePaymentMethods = Object.values(PaymentMethods);
+
+export const ExpenseTypes = {
+  FOOD_AND_DRINK: "Food & drink",
+  SHOPPING: "shopping",
+  ENTERTAINMENT: "entertainment",
+  HOME: "Home",
+  TRANSPORTATION: "Transportation",
+  OTHERS: "Others",
+};
+
+export const AvailableExpenseTypes = Object.values(ExpenseTypes);
