@@ -30,7 +30,7 @@ const ViewGroup = () => {
   const renderContent = () => {
     switch (isActive) {
       case 1:
-        return <GroupExpenses />;
+        return <GroupExpenses id={id} />;
       case 2:
         return <GroupBalance />;
       case 3:
@@ -50,7 +50,6 @@ const ViewGroup = () => {
       async () => await viewExpenseGroupDetails(id),
       setisLoading,
       (res) => {
-        console.log(res.data);
         setgroupDetails(res.data.Group[0]);
       },
       toast
