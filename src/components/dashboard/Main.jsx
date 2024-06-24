@@ -1,11 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import RecentTransaction from "./RecentTransaction";
 
 const Main = () => {
   return (
     <div className="grid grid-cols-9">
-      <div className="col-span-7 p-8">
+      <div className="col-span-6 p-8">
         <div className="bg-blue-200 rounded-2xl p-4 flex ">
           <div className="grid grid-rows-12">
             <h1 className="text-2xl mb-8 text-blue-800 font-bold row-span-3">
@@ -29,7 +30,9 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-2">side 2</div>
+      <div className="col-span-3">
+        <RecentTransaction />
+      </div>
     </div>
   );
 };

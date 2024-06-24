@@ -30,9 +30,13 @@ const GroupExpenses = ({ id }) => {
   return (
     <div className="bg-white p-4 flex mt-8">
       <div className="w-1/2">
-        {expenseList.map((expense) => (
-          <ExpenseCard key={expense._id} expense={expense} />
-        ))}
+        {expenseList.length > 0 ? (
+          expenseList.map((expense) => (
+            <ExpenseCard key={expense._id} expense={expense} />
+          ))
+        ) : (
+          <div> No expenses to show</div>
+        )}
       </div>
       <div>Expense chart</div>
     </div>
