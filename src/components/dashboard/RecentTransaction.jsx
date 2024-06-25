@@ -12,7 +12,6 @@ const RecentTransaction = () => {
       async () => await viewUserRecentExpenses(),
       setisLoading,
       (res) => {
-        console.log(res.data);
         setRecentTransactions(res.data.payload);
       },
       toast
@@ -27,10 +26,20 @@ const RecentTransaction = () => {
     return <div>Loading</div>;
   }
 
+  const handleDelete = (deleteId) => {
+    setRecentTransactions(
+      recentTransactions.filter((expense) => expense._id !== deleteId)
+    );
+  };
+
   return (
     <div className="pr-2">
-      {recentTransactions.map((transaction) => (
-        <ExpenseCard key={transaction._id} expense={transaction} />
+      {recentTransactions.slice(0, 5).map((transaction) => (
+        <ExpenseCard
+          key={transaction._id}
+          expense={transaction}
+          onDelete={handleDelete}
+        />
       ))}
     </div>
   );

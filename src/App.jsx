@@ -16,6 +16,8 @@ import About from "./components/About";
 import Page404 from "./components/Page404";
 import { useAuth } from "./context/useAuthHook";
 import Main from "./components/dashboard/Main";
+import ViewExpense from "./components/expense/ViewExpense";
+import EditExpense from "./components/expense/EditExpense";
 
 function App() {
   const { token, user } = useAuth();
@@ -47,25 +49,9 @@ function App() {
         <Route path="groups/view/:id" element={<ViewGroup />} />
         <Route path="groups/edit/:id" element={<EditGroup />} />
         <Route path="addExpense/:id" element={<AddExpense />} />
+        <Route path="viewExpense/:id" element={<ViewExpense />} />
+        <Route path="editExpense/:id" element={<EditExpense />} />
       </Route>
-
-      <Route
-        path={`${routes.ADD_EXPENSE_URL}`}
-        element={
-          <PrivateRoute>
-            <AddExpense />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path={`${routes.EDIT_GROUP_URL}`}
-        element={
-          <PrivateRoute>
-            <EditGroup />
-          </PrivateRoute>
-        }
-      />
 
       <Route
         path={`${routes.LOGIN_URL}`}

@@ -27,12 +27,20 @@ const GroupExpenses = ({ id }) => {
     return <div>Loading</div>;
   }
 
+  const handleDelete = (deleteId) => {
+    setExpenseList(expenseList.filter((expense) => expense._id !== deleteId));
+  };
+
   return (
     <div className="bg-white p-4 flex mt-8">
       <div className="w-1/2">
         {expenseList.length > 0 ? (
           expenseList.map((expense) => (
-            <ExpenseCard key={expense._id} expense={expense} />
+            <ExpenseCard
+              key={expense._id}
+              expense={expense}
+              onDelete={handleDelete}
+            />
           ))
         ) : (
           <div> No expenses to show</div>

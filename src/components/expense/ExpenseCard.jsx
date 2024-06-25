@@ -20,13 +20,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { IoIosMenu } from "react-icons/io";
 import { Link } from "react-router-dom";
-const ExpenseCard = ({ expense }) => {
+import { requestHandler } from "@/lib/helpers";
+import { toast } from "../ui/use-toast";
+import { deleteExpense } from "@/api";
+const ExpenseCard = ({ expense, onDelete }) => {
   const formatDate = (isoDate) => {
     return format(new Date(isoDate), "do MMMM yyyy");
   };
+
   const [open, setOpen] = useState(false);
   const handleDeleteExpense = async () => {
-    //! has to delete Expense
+    await requestHandler(
+      async () => await deleteExpense(expense._id),
+      null,
+      (res) => {
+        onDelete(expense._id);
+        setOpen(false);
+      },
+      toast
+    );
   };
   function ProfileForm({ className }) {
     return (
@@ -78,14 +90,14 @@ const ExpenseCard = ({ expense }) => {
       </div>
 
       <div className="col-span-1">
-        <div className="flex justify-end">
+        <div className="flex justify-end relative">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 <IoIosMenu />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-16 translate-x-10">
+            <DropdownMenuContent className="w-16">
               <Link to={`/dashboard/viewExpense/${expense._id}`}>
                 <DropdownMenuLabel className="flex items-center justify-center cursor-pointer hover:bg-gray-200">
                   <FaEye color="" className="mr-4" />
