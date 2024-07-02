@@ -119,3 +119,19 @@ export const ExpenseTypes = {
 };
 
 export const AvailableExpenseTypes = Object.values(ExpenseTypes);
+
+export function updateGroupSplit(group) {
+  let updateGroupSplit = {};
+
+  Object.keys(group.split).forEach((key) => {
+    const value = group.split[key];
+
+    for (let i = 0; i < group.participants.length; i++) {
+      console.log(group.participants[i]);
+      if (group.participants[i]._id === key) {
+        updateGroupSplit.group.participants[i] = value;
+      }
+    }
+  });
+  return updateGroupSplit;
+}

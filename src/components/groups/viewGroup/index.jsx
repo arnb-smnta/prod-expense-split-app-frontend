@@ -15,8 +15,8 @@ import { CgNotes } from "react-icons/cg";
 import { FaRegMoneyBill1 } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import GroupExpenses from "./GroupExpenses";
-import GroupBalance from "./GroupBalance";
 import MyBalance from "./MyBalance";
+import Settlement from "../settlement";
 
 const ViewGroup = () => {
   const [isActive, setisActive] = useState(1);
@@ -32,7 +32,7 @@ const ViewGroup = () => {
       case 1:
         return <GroupExpenses id={id} />;
       case 2:
-        return <GroupBalance />;
+        return <Settlement />;
       case 3:
         return <MyBalance />;
       default:

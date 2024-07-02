@@ -6,7 +6,7 @@ const Page404 = () => {
       <img
         src="https://i.pinimg.com/736x/f2/a9/31/f2a9310be7d13bb02ffbb0bf3445a8b4.jpg"
         alt="404 img"
-        className="w-screen"
+        className=""
       />
     </div>
   );

@@ -50,6 +50,17 @@ const CreateGroup = () => {
       setExpenseGroupData({ ...expenseGroupData, [name]: e.target.value });
     }
   };
+  const handleDisabledButtonClick = () => {
+    if (isCreateButtonDisabled()) {
+      toast({
+        variant: "destructive",
+        title: "Incomplete Form",
+        description:
+          "Please fill out all the required fields before creating a group.",
+        status: "warning",
+      });
+    }
+  };
 
   const handleSubmit = () => {
     expenseGroupData.participants = selectedParticipants;
@@ -83,9 +94,8 @@ const CreateGroup = () => {
     handlegetParticiapants();
   }, []);
   return (
-    <div className="mt-32 grid grid-rows-8 gap-3 w-[70%] max-h-screen pl-4">
+    <div className="mt-32 grid grid-rows-6  w-[70%] max-h-screen pl-4 bg-white mx-auto rounded-2xl py-4 px-8 mb-8">
       <h1 className="text-2xl font-bold row-span-1">Create new Group</h1>
-
       <Input
         className="row-span-1"
         placeholder="Enter group name"
@@ -96,7 +106,6 @@ const CreateGroup = () => {
         placeholder="Enter group Description"
         onChange={handleGroupDetailsChange("description")}
       />
-
       <div>
         <h1 className="text-2xl font-bold mb-4 row-span-1">Group Category</h1>
         <Select
@@ -119,7 +128,7 @@ const CreateGroup = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="p-4 max-w-xl row-span-2">
+      <div className=" max-w-xl row-span-2">
         <h1 className="text-2xl font-bold mb-4">Group Participants</h1>
         <MultiSelect
           options={participantsList}
@@ -131,7 +140,6 @@ const CreateGroup = () => {
           maxCount={3}
         />
       </div>
-
       {/*  <Select
         className="row-span-1"
         onValueChange={handleGroupDetailsChange("groupCategory")}
@@ -152,13 +160,25 @@ const CreateGroup = () => {
         </SelectContent>
       </Select>
 */}
-      <Button
-        className="row-span-3 w-[20%]"
-        onClick={handleSubmit}
-        disabled={isCreateButtonDisabled()}
-      >
-        Create Group
-      </Button>
+      <div className="row-span-1 flex items-end justify-end">
+        <div className="relative w-[20%]">
+          <Button
+            className={`cursor-pointer bg-blue-600 font-bold ${
+              isCreateButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={handleSubmit}
+            disabled={isCreateButtonDisabled()}
+          >
+            Create Group
+          </Button>
+          {isCreateButtonDisabled() && (
+            <div
+              className="absolute inset-0 w-full h-full flex items-center justify-center bg-transparent"
+              onClick={handleDisabledButtonClick}
+            />
+          )}
+        </div>
+      </div>{" "}
     </div>
   );
 };

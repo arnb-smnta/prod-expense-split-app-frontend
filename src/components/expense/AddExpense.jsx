@@ -50,8 +50,6 @@ const AddExpense = () => {
   const handleOnSubmit = async () => {
     expense.participants = expenseMembers;
     expense.expenseDate = date;
-    console.log(expense);
-    console.log(date);
     requestHandler(
       async () => await addExpense(expense, id),
       null,

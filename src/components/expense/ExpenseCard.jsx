@@ -19,23 +19,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IoIosMenu } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { requestHandler } from "@/lib/helpers";
 import { toast } from "../ui/use-toast";
 import { deleteExpense } from "@/api";
-const ExpenseCard = ({ expense, onDelete }) => {
+const ExpenseCard = ({ expense }) => {
   const formatDate = (isoDate) => {
     return format(new Date(isoDate), "do MMMM yyyy");
   };
-
+  //! has to succesfuuly reload the page on deletion of expense
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleDeleteExpense = async () => {
     await requestHandler(
       async () => await deleteExpense(expense._id),
       null,
       (res) => {
-        onDelete(expense._id);
-        setOpen(false);
+        navigate(`/dashboard/groups/view/${expense.owner[0]._id}`, {
+          replace: true,
+        });
       },
       toast
     );

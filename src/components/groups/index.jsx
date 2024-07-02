@@ -33,7 +33,9 @@ const Groups = () => {
         <div className="w-[540px] flex  h-48 m-6 shadow-2xl rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 items-center justify-center">
           <div className="text-center">
             <MdGroupAdd color="white" className="h-12 w-12" />
-            <h1>Create a new group</h1>
+            <h1 className="font-bold text-white text-2xl">
+              Create a new group
+            </h1>
           </div>
         </div>
       </Link>
