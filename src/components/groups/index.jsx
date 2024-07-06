@@ -5,6 +5,7 @@ import { toast } from "../ui/use-toast";
 import GroupCard from "./GroupCard";
 import { Link } from "react-router-dom";
 import { MdGroupAdd } from "react-icons/md";
+import Loader from "../ui/Loader";
 
 const Groups = () => {
   const [groupList, setgroupList] = useState("");
@@ -25,12 +26,12 @@ const Groups = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <Loader />;
   }
   return (
     <div className="mt-32 flex flex-wrap">
       <Link to="/dashboard/createGroup">
-        <div className="w-[540px] flex  h-48 m-6 shadow-2xl rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 items-center justify-center">
+        <div className="w-[540px] flex  h-96 m-6 shadow-2xl rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-500 items-center justify-center">
           <div className="text-center">
             <MdGroupAdd color="white" className="h-12 w-12" />
             <h1 className="font-bold text-white text-2xl">

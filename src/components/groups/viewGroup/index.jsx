@@ -1,8 +1,8 @@
-import { viewExpenseGroupDetails } from "@/api";
+import { deleteExpenseGroup, viewExpenseGroupDetails } from "@/api";
 import { toast } from "@/components/ui/use-toast";
-import { requestHandler } from "@/lib/helpers";
+import { LocalStorage, requestHandler } from "@/lib/helpers";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { MdAddBox } from "react-icons/md";
@@ -15,11 +15,26 @@ import { CgNotes } from "react-icons/cg";
 import { FaRegMoneyBill1 } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import GroupExpenses from "./GroupExpenses";
+import { cn } from "@/lib/utils";
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
 import MyBalance from "./MyBalance";
 import Settlement from "../settlement";
 
 const ViewGroup = () => {
+  const user = LocalStorage.get("user");
   const [isActive, setisActive] = useState(1);
+  const [open, setOpen] = React.useState(false);
   const icons = {
     Home: IoHome,
     Trip: MdAirplanemodeActive,
@@ -39,11 +54,36 @@ const ViewGroup = () => {
         return null;
     }
   };
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const [isLoading, setisLoading] = useState(true);
+  const handledeleteGroup = async (e) => {
+    e.preventDefault();
+
+    requestHandler(
+      async () => await deleteExpenseGroup(groupDetails._id),
+      null,
+      (res) => {
+        navigate("/dashboard/groups");
+      },
+      toast
+    );
+  };
 
   const [groupDetails, setgroupDetails] = useState("");
+  function ProfileForm({ className }) {
+    return (
+      <form className={cn("grid items-start gap-4", className)}>
+        <Button
+          className="bg-red-600"
+          type="submit"
+          onClick={handledeleteGroup}
+        >
+          Delete Group
+        </Button>
+      </form>
+    );
+  }
 
   const getGroupDetails = async () => {
     requestHandler(
@@ -66,15 +106,36 @@ const ViewGroup = () => {
   if (isLoading) {
     return <div>Loading</div>;
   }
+  console.log(groupDetails);
 
   return (
-    <div className=" bg-white mx-4">
+    <div className=" bg-white mx-4 mt-8">
       <div className=" bg-blue-200 grid grid-rows-4 rounded-2xl px-2 py-4">
         <div className="flex justify-between row-span-1">
           <h1 className="font-bold text-2xl text-blue-800">
             {groupDetails.name}
           </h1>
-
+          {user._id === groupDetails.groupOwner[0]._id ? (
+            <Drawer open={open} onOpenChange={setOpen}>
+              <DrawerTrigger asChild>
+                <Button variant="destructive">Delete group</Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader className="text-left">
+                  <DrawerTitle>Delete Group</DrawerTitle>
+                  <DrawerDescription>
+                    Are you sure You want to Delete this group and its content ?
+                  </DrawerDescription>
+                </DrawerHeader>
+                <ProfileForm className="px-4" />
+                <DrawerFooter className="pt-2">
+                  <DrawerClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          ) : null}
           <Link to={`/dashboard/groups/edit/${groupDetails._id}`}>
             {" "}
             <FaRegEdit color="blue" />
@@ -112,7 +173,7 @@ const ViewGroup = () => {
           </div>
           <div className="col-span-2">
             <h1 className="font-bold text-2xl">Total Expense</h1>
-            <h1 className="font-bold text-2xl">₹ 0</h1>
+            <h1 className="font-bold text-2xl">₹ {groupDetails.groupTotal}</h1>
           </div>
         </div>
         <div className="bg-green-300 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">
@@ -121,7 +182,7 @@ const ViewGroup = () => {
           </div>
           <div className="col-span-2">
             <h1 className="font-bold text-2xl">You are owed</h1>
-            <h1 className="font-bold text-2xl">₹ 0</h1>
+            <h1 className="font-bold text-2xl">₹ </h1>
           </div>
         </div>
         <div className="bg-red-300 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">

@@ -20,7 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   AvailableExpenseTypes,
   AvailablePaymentMethods,
@@ -122,7 +122,7 @@ const AddExpense = () => {
           <div>
             <Select onValueChange={handleOnchange("owner")}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Expense Category" />
+                <SelectValue placeholder="Expense Owner" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -236,9 +236,14 @@ const AddExpense = () => {
             />
           </div>
         </div>
-        <div className="my-2">
-          <Button>Cancel</Button>
-          <Button onClick={handleOnSubmit}>Add Expense</Button>
+        <div className="my-2 flex justify-between">
+          <Link to={`/dashboard/groups/view/${id}`}>
+            {" "}
+            <Button className="bg-red-700">Cancel</Button>
+          </Link>
+          <Button className="bg-blue-700" onClick={handleOnSubmit}>
+            Add Expense
+          </Button>
         </div>
       </div>
     </div>

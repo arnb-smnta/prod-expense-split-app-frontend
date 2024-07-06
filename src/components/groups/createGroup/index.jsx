@@ -68,7 +68,7 @@ const CreateGroup = () => {
       async () => await createANewGroup(expenseGroupData),
       null,
       (res) => {
-        navigate("/dashboard/app");
+        navigate("/dashboard/groups");
       },
       toast
     );
