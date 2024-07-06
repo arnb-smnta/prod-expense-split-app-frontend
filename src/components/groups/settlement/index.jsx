@@ -17,12 +17,14 @@ const Settlement = () => {
       },
       setisLoading,
       (res) => {
-        setGroupBalanceSheet(res.data.payload);
+        const data = res.data.payload.filter((item) => item.value != 0);
+        setGroupBalanceSheet(data);
       },
       toast
     );
   };
 
+  console.log(GroupBalanceSheet);
   useEffect(() => {
     fetchUserBalance();
   }, []);
