@@ -1,14 +1,9 @@
-import {
-  editExpenseGroup,
-  getAvailableUsers,
-  viewExpenseGroupDetails,
-} from "@/api";
+import { editExpenseGroup, viewExpenseGroupDetails } from "@/api";
 import { AvailableExpenseGroupTypes, requestHandler } from "@/lib/helpers";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "../ui/use-toast";
-import { Button } from "@/components/ui/button";
-import MultiSelect from "./createGroup/Multiselect";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
@@ -18,53 +13,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
+import { Button } from "../ui/button";
 
-const EditExpense = () => {
-  //!Backend bug owner is not fetched in get users need to change participants and owner
+const EditGroup = () => {
+  const navigate = useNavigate();
   const [groupDetails, setGroupDetails] = useState({
+    _id: "",
     name: "",
     description: "",
-    participants: [],
     groupCategory: "",
   });
   const { id } = useParams();
-  const [selectedParticipants, setSelectedParticipants] = useState([]);
-  const [availableUsers, setAvailableUsers] = useState([]);
-  const [participantsList, setParticipantsList] = useState([]);
-  const navigate = useNavigate();
-
-  const getGroupDetails = () => {
+  const getGroupDetails = async () => {
     requestHandler(
       async () => await viewExpenseGroupDetails(id),
       null,
       (res) => {
-        const { name, description, participants, groupCategory } =
-          res.data.Group[0];
+        const { name, description, groupCategory } = res.data.Group[0];
         setGroupDetails({
-          name,
-          description,
-          participants: participants.map((p) => p._id), // Map participants to their ids
-          groupCategory,
+          name: name,
+          description: description,
+          groupCategory: groupCategory,
         });
-        setSelectedParticipants(participants.map((p) => p._id));
       },
       toast
     );
   };
-
-  const handleGetParticipants = async () => {
-    requestHandler(
-      async () => getAvailableUsers(),
-      null,
-      (req) => {
-        setAvailableUsers(req.data);
-      },
-      toast
-    );
-  };
-
-  const handleGroupDetailsChange = (name) => (e) => {
+  const handleDataChange = (name) => (e) => {
     if (name === "groupCategory") {
       setGroupDetails({ ...groupDetails, [name]: e });
     } else {
@@ -72,86 +47,53 @@ const EditExpense = () => {
     }
   };
 
-  const isCreateButtonDisabled = () => {
-    return (
-      groupDetails.name === "" ||
-      groupDetails.description === "" ||
-      groupDetails.groupCategory === "" ||
-      selectedParticipants.length < 1
-    );
-  };
-
-  const handleDisabledButtonClick = () => {
-    if (isCreateButtonDisabled()) {
-      toast({
-        variant: "destructive",
-        title: "Incomplete Form",
-        description:
-          "Please fill out all the required fields before creating a group.",
-        status: "warning",
-      });
-    }
-  };
-
-  const handleSubmit = () => {
-    const updatedGroupDetails = {
-      ...groupDetails,
-      participants: selectedParticipants,
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     requestHandler(
-      async () => await editExpenseGroup(id, updatedGroupDetails),
+      async () => await editExpenseGroup(groupDetails, id),
       null,
-      (res) => {
-        navigate(`/dashboard/groups/${id}`);
-      },
-      toast
+      () => {
+        navigate(`/dashboard/groups/view/${id}`);
+      }
     );
   };
-
   useEffect(() => {
-    const mappedParticipants = availableUsers.map((user) => ({
-      value: user._id,
-      label: user.email,
-    }));
-    setParticipantsList(mappedParticipants);
-  }, [availableUsers]);
-
-  useEffect(() => {
-    handleGetParticipants();
     getGroupDetails();
   }, []);
 
   return (
-    <div className="mt-32 grid grid-rows-6 w-[70%] max-h-screen pl-4 bg-white mx-auto rounded-2xl py-4 px-8 mb-8">
-      <h1 className="text-2xl font-bold row-span-1">Edit Group Details</h1>
-      <Input
-        className="row-span-1"
-        placeholder="Enter group name"
-        onChange={handleGroupDetailsChange("name")}
-        value={groupDetails.name}
-      />
-      <Input
-        className="row-span-1 h-[100%]"
-        placeholder="Enter group description"
-        onChange={handleGroupDetailsChange("description")}
-        value={groupDetails.description}
-      />
+    <div className="bg-white py-4 px-8 mt-28 mx-auto w-[70%] rounded-2xl">
       <div>
-        <h1 className="text-2xl font-bold mb-4 row-span-1">Group Category</h1>
+        <h1 className="font-bold text-2xl mb-4">Group name</h1>
+
+        <Input value={groupDetails.name} onChange={handleDataChange("name")} />
+      </div>
+
+      <div className="mt-2 text-2xl font-bold">
+        <h1>Group Description</h1>
+
+        <Input
+          className="mt-2"
+          value={groupDetails.description}
+          onChange={handleDataChange("description")}
+        />
+      </div>
+
+      <div className="my-4">
         <Select
-          onValueChange={handleGroupDetailsChange("groupCategory")}
-          className="w-full"
+          onValueChange={handleDataChange("groupCategory")}
           value={groupDetails.groupCategory}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Group Category" />
+            <SelectValue placeholder="Select Group Category" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Group Category</SelectLabel>
+              <SelectLabel>{groupDetails.groupCategory}</SelectLabel>
+
               {AvailableExpenseGroupTypes.map((item, index) => (
-                <SelectItem key={index} value={item}>
+                <SelectItem key={index} value={`${item}`}>
                   {item}
                 </SelectItem>
               ))}
@@ -159,39 +101,18 @@ const EditExpense = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="max-w-xl row-span-2">
-        <h1 className="text-2xl font-bold mb-4">Group Participants</h1>
-        <MultiSelect
-          options={participantsList}
-          onValueChange={setSelectedParticipants}
-          defaultValue={selectedParticipants}
-          placeholder="Select Participants"
-          variant="inverted"
-          animation={2}
-          maxCount={3}
-        />
-      </div>
-      <div className="row-span-1 flex items-end justify-end">
-        <div className="relative w-[20%]">
-          <Button
-            className={`cursor-pointer bg-blue-600 font-bold ${
-              isCreateButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={handleSubmit}
-            disabled={isCreateButtonDisabled()}
-          >
-            Edit Group
-          </Button>
-          {isCreateButtonDisabled() && (
-            <div
-              className="absolute inset-0 w-full h-full flex items-center justify-center bg-transparent"
-              onClick={handleDisabledButtonClick}
-            />
-          )}
-        </div>
+
+      <div className="flex justify-between">
+        <Link to={`/dashboard/grops/view/${id}`}>
+          {" "}
+          <Button variant="destructive">Cancel</Button>
+        </Link>
+        <Button className="bg-blue-600" onClick={handleSubmit}>
+          Edit Group Details
+        </Button>
       </div>
     </div>
   );
 };
 
-export default EditExpense;
+export default EditGroup;

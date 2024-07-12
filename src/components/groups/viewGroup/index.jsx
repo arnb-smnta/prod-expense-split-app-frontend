@@ -106,7 +106,6 @@ const ViewGroup = () => {
   if (isLoading) {
     return <div>Loading</div>;
   }
-  console.log(groupDetails);
 
   return (
     <div className=" bg-white mx-4 mt-8">
