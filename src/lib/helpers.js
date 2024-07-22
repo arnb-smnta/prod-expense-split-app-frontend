@@ -135,3 +135,19 @@ export function updateGroupSplit(group) {
   });
   return updateGroupSplit;
 }
+
+export const aboutList = [
+  { name: "introduction", link: "#" },
+  { name: "Key Features", link: "#" },
+  { name: "Configuration and Setup", link: "#" },
+  { name: "License", link: "#" },
+];
+
+export const TechnologiesUsed = {
+  name: "Technologies Used",
+  subLinks: [
+    { name: "Frontend", link: "#" },
+    { name: "Backend", link: "#" },
+    { name: "Database", link: "#" },
+  ],
+};
