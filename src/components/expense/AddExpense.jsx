@@ -95,7 +95,7 @@ const AddExpense = () => {
   }
   return (
     <div className="flex justify-center items-center">
-      <div className="bg-white w-[50%] p-6">
+      <div className="bg-white w-[50%] p-6 mt-8 rounded-2xl">
         <h1 className="font-bold text-2xl ">Add Expense</h1>
         <div className="mt-2">
           <h1 className="font-bold text-xl mb-1">Expense Name</h1>

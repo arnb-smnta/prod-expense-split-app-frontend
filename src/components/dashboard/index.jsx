@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/useAuthHook";
+import Header from "../Header";
 const Dashboard = () => {
   const { logout } = useAuth();
   const dispatch = useDispatch();
@@ -79,8 +80,11 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="col-span-9">
-        <div className="border border-black mt-8 grid grid-cols-12">
-          <div className="col-span-9"> Search bar</div>
+        <div className="mt-8 grid grid-cols-12">
+          <div className="col-span-9">
+            {" "}
+            <Header />
+          </div>
           <div className="col-span-3 flex justify-end p-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

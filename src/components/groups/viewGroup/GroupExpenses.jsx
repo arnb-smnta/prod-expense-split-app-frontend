@@ -27,7 +27,7 @@ const GroupExpenses = ({ id }) => {
   }
 
   return (
-    <div className="bg-white p-4 flex mt-8">
+    <div className="bg-white p-4 flex mt-8 justify-center">
       <div className="w-1/2">
         {expenseList.length > 0 ? (
           expenseList.map((expense) => (
@@ -37,7 +37,6 @@ const GroupExpenses = ({ id }) => {
           <div> No expenses to show</div>
         )}
       </div>
-      <div>Expense chart</div>
     </div>
   );
 };

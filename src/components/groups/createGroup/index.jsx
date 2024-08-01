@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { createANewGroup, getAvailableUsers } from "@/api";
 import { toast } from "@/components/ui/use-toast";
 import MultiSelect from "./Multiselect";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const CreateGroup = () => {
   const navigate = useNavigate();
   const [expenseGroupData, setExpenseGroupData] = useState({
@@ -94,20 +94,25 @@ const CreateGroup = () => {
     handlegetParticiapants();
   }, []);
   return (
-    <div className="mt-32 grid grid-rows-6  w-[70%] max-h-screen pl-4 bg-white mx-auto rounded-2xl py-4 px-8 mb-8">
-      <h1 className="text-2xl font-bold row-span-1">Create new Group</h1>
-      <Input
-        className="row-span-1"
-        placeholder="Enter group name"
-        onChange={handleGroupDetailsChange("name")}
-      />
-      <Input
-        className="row-span-1 h-[100%]"
-        placeholder="Enter group Description"
-        onChange={handleGroupDetailsChange("description")}
-      />
-      <div>
-        <h1 className="text-2xl font-bold mb-4 row-span-1">Group Category</h1>
+    <div className="mt-32 grid grid-rows-5  w-[70%] max-h-screen pl-4 bg-white mx-auto rounded-2xl py-4 px-8 mb-8">
+      <div className="row-span-1">
+        <h1 className="text-2xl font-bold ">Create new Group</h1>
+        <Input
+          className="row-span-1"
+          placeholder="Enter group name"
+          onChange={handleGroupDetailsChange("name")}
+        />
+      </div>
+      <div className="row-span-1">
+        <h1 className="text-2xl font-bold">Group Description</h1>
+        <Input
+          className=" h-[60%]"
+          placeholder="Enter group Description"
+          onChange={handleGroupDetailsChange("description")}
+        />
+      </div>
+      <div className="row-span-1">
+        <h1 className="text-2xl font-bold mb-4 ">Group Category</h1>
         <Select
           onValueChange={handleGroupDetailsChange("groupCategory")}
           className=" w-full"
@@ -161,24 +166,32 @@ const CreateGroup = () => {
       </Select>
 */}
       <div className="row-span-1 flex items-end justify-end">
-        <div className="relative w-[20%]">
-          <Button
-            className={`cursor-pointer bg-blue-600 font-bold ${
-              isCreateButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={handleSubmit}
-            disabled={isCreateButtonDisabled()}
-          >
-            Create Group
-          </Button>
-          {isCreateButtonDisabled() && (
-            <div
-              className="absolute inset-0 w-full h-full flex items-center justify-center bg-transparent"
-              onClick={handleDisabledButtonClick}
-            />
-          )}
-        </div>
-      </div>{" "}
+        <div className="flex justify-between w-full">
+          <div>
+            <Link to={`/dashboard/groups`}>
+              {" "}
+              <Button variant="destructive">Cancel</Button>
+            </Link>
+          </div>
+          <div className="relative w-[20%]">
+            <Button
+              className={`cursor-pointer bg-blue-600 font-bold ${
+                isCreateButtonDisabled() ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              onClick={handleSubmit}
+              disabled={isCreateButtonDisabled()}
+            >
+              Create Group
+            </Button>
+            {isCreateButtonDisabled() && (
+              <div
+                className="absolute inset-0 w-full h-full flex items-center justify-center bg-transparent cursor-pointer"
+                onClick={handleDisabledButtonClick}
+              />
+            )}
+          </div>
+        </div>{" "}
+      </div>
     </div>
   );
 };
