@@ -1,11 +1,11 @@
-import { viewExpense, viewExpenseGroupDetails } from "@/api";
+import { editexpense, viewExpense, viewExpenseGroupDetails } from "@/api";
 import {
   AvailableExpenseTypes,
   AvailablePaymentMethods,
   requestHandler,
 } from "@/lib/helpers";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
 import {
@@ -23,19 +23,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import MultiSelect from "../groups/createGroup/Multiselect";
 
 const EditExpense = () => {
   const { id } = useParams();
   const [expenseMembersList, setexpenseMembersList] = useState([]);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(null);
   const [isLoading, setisLoading] = useState(true);
-
   const [participantList, setparticipantsList] = useState([]);
-
+  const [expenseMembers, setExpenseMembers] = useState([]);
   const [expense, setExpense] = useState({
     name: "",
     description: "",
@@ -47,7 +47,7 @@ const EditExpense = () => {
     owner: "",
     groupId: "",
   });
-
+  const navigate = useNavigate();
   const getExpenseDetails = () => {
     requestHandler(
       async () => await viewExpense(id),
@@ -76,6 +76,8 @@ const EditExpense = () => {
           owner: owner[0],
           groupId: groupId[0],
         });
+        setDate(parseISO(expenseDate)); // Set initial date
+        setExpenseMembers(participants.map((participant) => participant._id)); // Set initial participants
       },
       toast
     );
@@ -103,30 +105,50 @@ const EditExpense = () => {
   useEffect(() => {
     getExpenseDetails();
   }, []);
+
   useEffect(() => {
-    getGroupDetails();
+    if (expense.groupId) {
+      getGroupDetails();
+    }
   }, [expense]);
 
   useEffect(() => {
     if (participantList.length > 0) {
-      const mappedParticiapants = participantList.map((user) => ({
+      const mappedParticipants = participantList.map((user) => ({
         value: user._id,
         label: user.email,
         icon: undefined,
       }));
-
-      setexpenseMembersList(mappedParticiapants);
+      setexpenseMembersList(mappedParticipants);
     }
   }, [participantList]);
+  console.log(expense);
+  const handleOnEdit = (e) => {
+    console.log(expense);
+    console.log(expenseMembers);
+    console.log(date);
+    const dateISO = new Date(date);
+    const isoString = dateISO.toISOString();
+    expense.participants = expenseMembers;
+    expense.expenseDate = isoString;
+    console.log(expense);
+
+    requestHandler(
+      async () => await editexpense(id, expense),
+      null,
+      (res) => {
+        navigate(`/dashboard/groups/view/${expense.groupId}`);
+      }
+    );
+  };
 
   return (
     <div className="flex justify-center items-center">
       <div className="bg-white w-[50%] p-6 mt-8 rounded-2xl">
-        <h1 className="font-bold text-2xl ">Add Expense</h1>
+        <h1 className="font-bold text-2xl ">Edit Expense</h1>
         <div className="mt-2">
           <h1 className="font-bold text-xl mb-1">Expense Name</h1>
           <Input
-            className=""
             placeholder="Expense Name"
             value={expense.name}
             onChange={handleOnchange("name")}
@@ -136,12 +158,12 @@ const EditExpense = () => {
         <div className="my-2">
           <h1 className="font-bold text-xl">Expense Description</h1>
           <Input
-            className=""
             placeholder="Expense Description"
             value={expense.description}
             onChange={handleOnchange("description")}
           />
         </div>
+
         <div className="flex justify-between my-2">
           <div>
             <h1 className="font-bold text-xl">Expense Owner</h1>
@@ -171,7 +193,7 @@ const EditExpense = () => {
         <div className="flex justify-between my-2">
           <div>
             <h1 className="font-bold text-xl">Expense Category</h1>
-          </div>{" "}
+          </div>
           <div>
             <Select
               value={expense.category}
@@ -193,6 +215,7 @@ const EditExpense = () => {
             </Select>
           </div>
         </div>
+
         <div className="flex justify-between my-2">
           <div>
             <h1 className="font-bold text-xl">Payment Type</h1>
@@ -218,10 +241,11 @@ const EditExpense = () => {
             </Select>
           </div>
         </div>
+
         <div className="date-picker flex justify-between my-2">
           <div>
             <h1 className="font-bold text-xl">Expense Date</h1>
-          </div>{" "}
+          </div>
           <div>
             <Popover>
               <PopoverTrigger asChild>
@@ -239,8 +263,11 @@ const EditExpense = () => {
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
-                  selected={expense.expenseDate}
-                  onSelect={setDate}
+                  selected={date}
+                  onSelect={(newDate) => {
+                    setDate(newDate);
+                    setExpense({ ...expense, expenseDate: newDate });
+                  }}
                   initialFocus
                 />
               </PopoverContent>
@@ -248,12 +275,27 @@ const EditExpense = () => {
           </div>
         </div>
 
+        <div className="expense-participants my-2">
+          <h1 className="text-2xl font-bold mb-4">Group Participants</h1>
+          <MultiSelect
+            options={expenseMembersList}
+            onValueChange={setExpenseMembers}
+            defaultValue={expenseMembers}
+            placeholder="Select ExpenseMembers"
+            variant="inverted"
+            animation={2}
+            maxCount={3}
+          />
+        </div>
+
         <div className="flex justify-between">
           <Link to={`/dashboard/groups/view/${expense.groupId._id}`}>
-            <Button variant="destructive"> Cancel</Button>
+            <Button variant="destructive">Cancel</Button>
           </Link>
 
-          <Button className="bg-blue-700 text-white ">Edit Expense</Button>
+          <Button className="bg-blue-700 text-white" onClick={handleOnEdit}>
+            Edit Expense
+          </Button>
         </div>
       </div>
     </div>

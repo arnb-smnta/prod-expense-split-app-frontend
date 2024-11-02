@@ -28,6 +28,10 @@ const Groups = () => {
   if (isLoading) {
     return <Loader />;
   }
+
+  if (!groupList) {
+    return null;
+  }
   return (
     <div className="mt-32 flex flex-wrap">
       <Link to="/dashboard/createGroup">

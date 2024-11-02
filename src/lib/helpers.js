@@ -50,7 +50,7 @@ export const requestHandler = async (api, setLoading, onSuccess, onError) => {
       onSuccess(data);
     }
   } catch (error) {
-    console.log(error.response);
+    console.log(error);
     if (error && error.response && [401, 403].includes(error.response.status)) {
       localStorage.clear();
       if (isBrowser) {

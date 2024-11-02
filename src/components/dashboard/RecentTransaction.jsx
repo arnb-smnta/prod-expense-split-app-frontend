@@ -32,6 +32,10 @@ const RecentTransaction = () => {
     );
   };
 
+  if (!recentTransactions) {
+    return null; //null case recent transaction
+  }
+
   return (
     <div className="pr-2">
       {recentTransactions.slice(0, 5).map((transaction) => (

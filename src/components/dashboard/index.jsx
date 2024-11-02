@@ -44,25 +44,30 @@ const Dashboard = () => {
   };
   return (
     <div className="w-full grid grid-cols-12 bg-gray-200 ">
-      <div className="col-span-3 border-r border-black border-dotted h-screen px-4">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBm8eaubRQZt4JeGqzJEdv4Hsso9I7Qo5oDT4IR6YbouQsmqS8PUbOme0eOZ041miCyyE&usqp=CAU"
-          alt=""
-          className=" w-full h-48 mb-8 mt-4"
-        />
-        <div className="bg-blue-100 shadow-xl flex rounded-lg mb-8">
-          <div className="p-4">
-            <img
-              src={`${name.avatar.url}`}
-              alt="propic"
-              className="rounded-full h-12 "
-            />
+      <div className="col-span-3 border-r border-black border-dotted h-screen px-4 cursor-pointer">
+        <Link to="/dashboard/app">
+          {" "}
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBm8eaubRQZt4JeGqzJEdv4Hsso9I7Qo5oDT4IR6YbouQsmqS8PUbOme0eOZ041miCyyE&usqp=CAU"
+            alt=""
+            className=" w-full h-48 mb-8 mt-4"
+          />
+        </Link>
+        <Link to="/dashboard/userProfile">
+          <div className="bg-blue-100 shadow-xl flex rounded-lg mb-8 cursor-pointer">
+            <div className="p-4">
+              <img
+                src={`${name.avatar.url}`}
+                alt="propic"
+                className="rounded-full h-12 "
+              />
+            </div>
+            <div className="ml-4 py-4">
+              <h1 className="font-bold">{name.username}</h1>
+              <h1>{name.email}</h1>
+            </div>
           </div>
-          <div className="ml-4 py-4">
-            <h1 className="font-bold">{name.username}</h1>
-            <h1>{name.email}</h1>
-          </div>
-        </div>
+        </Link>
         <div>
           {" "}
           {menuItems.map((item) => {
@@ -89,7 +94,7 @@ const Dashboard = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <img
-                  src={`${name.avatar.url}`}
+                  src={`https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D`}
                   alt=""
                   className="rounded-full h-12 cursor-pointer "
                 />
