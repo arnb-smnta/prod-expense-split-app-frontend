@@ -128,14 +128,11 @@ const EditExpense = () => {
     const isoString = dateISO.toISOString();
     expense.participants = expenseMembers;
     expense.expenseDate = isoString;
-    console.log(expense);
 
     requestHandler(
       async () => await editexpense(id, expense),
       null,
       (res) => {
-        console.log(res);
-        console.log(expense);
         navigate(`/dashboard/groups/view/${expense.groupId._id}`);
       },
       toast
