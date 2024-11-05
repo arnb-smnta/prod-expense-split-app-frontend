@@ -3,6 +3,7 @@ import { FaLock } from "react-icons/fa";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/useAuthHook";
+import { toast } from "../ui/use-toast";
 const Register = () => {
   // State to manage user registration data
   const [data, setData] = useState({
@@ -10,7 +11,7 @@ const Register = () => {
     username: "",
     password: "",
   });
-
+  const [message, setMessage] = useState();
   // Access the register function from the authentication context
   const { register } = useAuth();
 
@@ -24,8 +25,19 @@ const Register = () => {
   };
 
   // Handle user registration
-  const handleRegister = async () => await register(data);
+  const handleRegister = async () => {
+    if (Object.values(data).some((val) => !val)) {
+      toast({ variant: "destructive", description: "Enter all the values" });
+      return;
+    }
 
+    await register(data);
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleRegister();
+    }
+  };
   return (
     // Register form UI
     <div className="flex justify-center items-center flex-col h-screen w-full">
@@ -41,17 +53,20 @@ const Register = () => {
           type="email"
           value={data.email}
           onChange={handleDataChange("email")}
+          onKeyDown={handleKeyDown}
         />
         <Input
           placeholder="Enter the username..."
           value={data.username}
           onChange={handleDataChange("username")}
+          onKeyDown={handleKeyDown}
         />
         <Input
           placeholder="Enter the password..."
           type="password"
           value={data.password}
           onChange={handleDataChange("password")}
+          onKeyDown={handleKeyDown}
         />
         {/* Register button */}
         <Button

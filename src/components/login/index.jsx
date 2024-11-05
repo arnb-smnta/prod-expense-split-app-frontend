@@ -3,6 +3,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FaLock } from "react-icons/fa";
 import { useAuth } from "@/context/useAuthHook";
+import { toast } from "../ui/use-toast";
 
 const Login = () => {
   const [data, setData] = useState({
@@ -11,13 +12,26 @@ const Login = () => {
   });
 
   const { login } = useAuth();
-
   const handleDataChange = (name) => (e) => {
     e.preventDefault();
     setData({ ...data, [name]: e.target.value });
   };
   const handleLogin = async () => {
+    if (Object.values(data).some((val) => !val)) {
+      toast({
+        variant: "destructive",
+        description: "Please enter both username and password",
+      });
+      return;
+    }
+
     await login(data);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
   };
   return (
     <div className="flex justify-center items-center flex-col h-screen w-full">
@@ -30,6 +44,7 @@ const Login = () => {
         <Input
           placeholder="Enter the username..."
           value={data.username}
+          onKeyDown={handleKeyDown}
           onChange={handleDataChange("username")}
         />
         {/* Input for entering the password */}
@@ -38,6 +53,7 @@ const Login = () => {
           type="password"
           value={data.password}
           onChange={handleDataChange("password")}
+          onKeyDown={handleKeyDown}
         />
         {/* Button to initiate the login process */}
         <Button
@@ -54,6 +70,14 @@ const Login = () => {
             Register
           </a>
         </small>
+      </div>
+
+      <div className="border border-black p-2 font-extrabold text-center">
+        <h1>Sample Username:shubrakaru</h1>
+        <h1>Sample Password: Arnab@0000</h1>
+        <h2 className="text-red-700">
+          This is sample login credentials you can use to login into my app
+        </h2>
       </div>
     </div>
   );
