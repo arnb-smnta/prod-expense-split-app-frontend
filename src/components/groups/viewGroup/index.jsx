@@ -35,6 +35,7 @@ const ViewGroup = () => {
   const user = LocalStorage.get("user");
   const [isActive, setisActive] = useState(1);
   const [open, setOpen] = React.useState(false);
+  const [userValue, setUserValue] = useState();
   const icons = {
     Home: IoHome,
     Trip: MdAirplanemodeActive,
@@ -95,6 +96,13 @@ const ViewGroup = () => {
       toast
     );
   };
+  useEffect(() => {
+    if (groupDetails && groupDetails.split) {
+      setUserValue(groupDetails.split[user._id]);
+    }
+  }, [groupDetails]); // Run only when groupDetails or user._id changes
+
+  console.log(userValue);
   const getCategoryIcon = (category) => {
     const IconComponent = icons[category];
     return <IconComponent className="ml-1" />;
@@ -181,7 +189,9 @@ const ViewGroup = () => {
           </div>
           <div className="col-span-2">
             <h1 className="font-bold text-2xl">You are owed</h1>
-            <h1 className="font-bold text-2xl">₹ </h1>
+            <h1 className="font-bold text-2xl">
+              ₹ {userValue > 0 ? userValue : 0}{" "}
+            </h1>
           </div>
         </div>
         <div className="bg-red-300 col-span-1 rounded-xl p-4 grid grid-cols-3 gap-2">
@@ -190,7 +200,9 @@ const ViewGroup = () => {
           </div>
           <div>
             <h1 className="font-bold text-2xl">You owe</h1>
-            <h1 className="font-bold text-2xl">₹ 0</h1>
+            <h1 className="font-bold text-2xl">
+              ₹ {userValue < 0 ? userValue : 0}
+            </h1>
           </div>
         </div>
       </div>

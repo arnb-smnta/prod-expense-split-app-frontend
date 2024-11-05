@@ -29,6 +29,15 @@ const Main = () => {
             <img src="/src/assets/dashboard-card.png" alt="" />
           </div>
         </div>
+        <div className="bg-white mt-4 font-bold p-4 align-text-top text-red-800 text-2xl rounded-2xl shadow-xl">
+          <h1>
+            It is a frontend app to showcase what my app could do Don't go for
+            its looks I am not a designer but its my baby i am proud of the
+            frontend i made, it took me months to where i am to make it and
+            currently i am in the process to make it responsive functionality
+            wise it is a jet.{" "}
+          </h1>
+        </div>
       </div>
       <div className="col-span-3">
         <RecentTransaction />
