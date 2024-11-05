@@ -124,9 +124,6 @@ const EditExpense = () => {
   }, [participantList]);
   console.log(expense);
   const handleOnEdit = (e) => {
-    console.log(expense);
-    console.log(expenseMembers);
-    console.log(date);
     const dateISO = new Date(date);
     const isoString = dateISO.toISOString();
     expense.participants = expenseMembers;
@@ -137,8 +134,11 @@ const EditExpense = () => {
       async () => await editexpense(id, expense),
       null,
       (res) => {
-        navigate(`/dashboard/groups/view/${expense.groupId}`);
-      }
+        console.log(res);
+        console.log(expense);
+        navigate(`/dashboard/groups/view/${expense.groupId._id}`);
+      },
+      toast
     );
   };
 
