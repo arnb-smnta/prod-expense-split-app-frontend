@@ -201,7 +201,7 @@ const ViewGroup = () => {
           <div>
             <h1 className="font-bold text-2xl">You owe</h1>
             <h1 className="font-bold text-2xl">
-              ₹ {userValue < 0 ? userValue : 0}
+              ₹ {userValue < 0 ? userValue * -1 : 0}
             </h1>
           </div>
         </div>

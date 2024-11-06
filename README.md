@@ -1,15 +1,18 @@
 # SplitEasy - Bill Splitting Made Simple!
 
-**Official Link**: [Visit SplitEasy](https://splitbills.site)  
+**Official Frontend Link**: [Visit SplitBills](https://splitbills.site)
+**GitHub Repository**: [View Repository](https://github.com/arnb-smnta/expense-split-prod-frontend)
+
+**Official Backend Link**: [Visit SplitBills](https://servers.splitbills.site)  
 **GitHub Repository**: [View Repository](https://github.com/arnb-smnta/expense-split-prod-backend)
 
-SplitEasy is a powerful and responsive application designed to help friends, families, and groups manage and split expenses seamlessly. Whether it's a trip, a party, or everyday shared expenses, SplitEasy simplifies the process, ensuring everyone gets a fair share and no payment is left behind.
+SplitBills is a powerful and responsive application designed to help friends, families, and groups manage and split expenses seamlessly. Whether it's a trip, a party, or everyday shared expenses, SplitEasy simplifies the process, ensuring everyone gets a fair share and no payment is left behind.
 
 ---
 
 ## ✨ Features
 
-SplitEasy is crafted with a range of features to make expense tracking and bill splitting both comprehensive and straightforward. Here’s what you can do:
+SplitBills is crafted with a range of features to make expense tracking and bill splitting both comprehensive and straightforward. Here’s what you can do:
 
 1. **User Registration & Authentication**
 
@@ -77,7 +80,7 @@ Follow these steps to get the application up and running locally.
    ```
 
 3. **Set Up Environment Variables**
-   - Configure your environment variables as required (e.g., MongoDB URI, JWT secrets).
+   - Configure your environment variables as required given in the env.sample file in the repo(e.g., MongoDB URI, JWT secrets).
 4. **Run the Backend Server**
 
    ```bash
@@ -87,7 +90,7 @@ Follow these steps to get the application up and running locally.
    The backend server should now be running at `http://localhost:8080`.
 
 5. **Frontend Setup**
-   - Visit the [official SplitEasy frontend repository](https://github.com/arnb-smnta/expense-split-prod-frontend) and follow similar steps to set up and run the frontend application.
+   - Visit the [official SplitBills frontend repository](https://github.com/arnb-smnta/expense-split-prod-frontend) and follow similar steps to set up and run the frontend application.
 
 ---
 
@@ -123,13 +126,13 @@ Contributions are welcome! Please check the contribution guidelines in the repos
 
 ---
 
-## 🌐 Connect With Us
+## 🌐 Connect With Us on the below links
 
 For feedback, bug reports, or to say hello, [contact us](https://arnabsamanta.in).
 To know more about the frontend application visit [splitbills-About](https://splitbills.site/about)
 
 ---
 
-> **SplitEasy** - Making shared expenses simpler, fairer, and more manageable for everyone.
+> **SplitBills** - Making shared expenses simpler, fairer, and more manageable for everyone.
 
 ---
