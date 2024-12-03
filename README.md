@@ -3,7 +3,7 @@
 **Official Frontend Link**: [Visit SplitBills](https://splitbills.site)
 **GitHub Repository**: [View Repository](https://github.com/arnb-smnta/expense-split-prod-frontend)
 
-**Official Backend Link**: [Visit SplitBills](https://servers.splitbills.site)  
+**Official Backend Link**: [Visit SplitBills](https://server.splitbills.site)  
 **GitHub Repository**: [View Repository](https://github.com/arnb-smnta/expense-split-prod-backend)
 
 SplitBills is a powerful and responsive application designed to help friends, families, and groups manage and split expenses seamlessly. Whether it's a trip, a party, or everyday shared expenses, SplitEasy simplifies the process, ensuring everyone gets a fair share and no payment is left behind.
